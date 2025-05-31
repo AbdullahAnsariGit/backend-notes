@@ -1,0 +1,328 @@
+<!DOCTYPE html>
+<html lang="ur">
+<head>
+  <meta charset="UTF-8">
+  <title>Node.js Class 1 - Extended Detailed Notes</title>
+  <style>
+    body {
+      font-family: 'Arial', sans-serif;
+      margin: 0;
+      padding: 40px;
+      background: linear-gradient(135deg, #1a1a2e 0%, #16213e 100%);
+      color: #e0e0e0;
+      min-height: 100vh;
+    }
+    .container {
+      max-width: 900px;
+      margin: auto;
+      background: rgba(0, 0, 0, 0.7);
+      border-radius: 15px;
+      padding: 30px;
+      box-shadow: 0 0 30px rgba(0, 255, 255, 0.3), 
+                  0 0 60px rgba(255, 0, 255, 0.2);
+    }
+    h1, h2 {
+      text-align: center;
+      color: #00ffcc;
+      text-shadow: 0 0 10px #00ffcc;
+    }
+    h2 {
+      margin-top: 40px;
+      color: #ff00ff;
+      text-shadow: 0 0 8px #ff00ff;
+    }
+    ul, ol {
+      padding-left: 20px;
+    }
+    li {
+      margin-bottom: 10px;
+      line-height: 1.6;
+    }
+    .code-block {
+      background: rgba(255, 255, 255, 0.05);
+      border-left: 5px solid #00ffcc;
+      padding: 15px;
+      margin: 15px 0;
+      font-family: 'Courier New', monospace;
+      white-space: pre-wrap;
+      border-radius: 10px;
+      font-size: 14px;
+    }
+    strong {
+      color: #ff4d4d;
+    }
+    p {
+      line-height: 1.8;
+    }
+    .note {
+      background: rgba(0, 255, 255, 0.1);
+      padding: 10px;
+      border-radius: 8px;
+      margin: 10px 0;
+      font-style: italic;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h1>Node.js - Class 1 Comprehensive Notes (3-Hour Session)</h1>
+
+    <h2>📚 Web Architecture Overview</h2>
+    <p>Web development ka structure teen main hisson mein takseem hota hai: Frontend, Backend, aur Database. Ye sab mil kar ek complete web application banate hain.</p>
+    <ul>
+      <li><strong>Frontend:</strong> Ye wo hissa hai jo user browser mein dekhta hai. Isme HTML (structure), CSS (styling), aur JavaScript (interactivity) shamil hote hain. Maslan, buttons, forms, aur animations frontend ka hissa hain.</li>
+      <li><strong>Backend:</strong> Ye server-side logic ko handle karta hai, jo user ko directly nazar nahi aata. Backend languages jaise Node.js, PHP, ya Python istemal hoti hain. Ye data processing, API calls, aur business logic ke liye zimmaydar hai.</li>
+      <li><strong>Database:</strong> Ye data ko store aur organize karta hai. Databases jaise MongoDB (NoSQL) ya MySQL (SQL) istemal hote hain. Ye user data, posts, ya koi bhi information save karta hai.</li>
+      <li><strong>Server:</strong> Ye ek bridge ka kaam karta hai jo frontend aur backend ko connect karta hai. Ye user requests ko handle karta hai aur responses bhejta hai.</li>
+      <li><strong>APIs:</strong> Application Programming Interfaces jo frontend aur backend ke darmiyan data exchange karte hain (e.g., REST, GraphQL).</li>
+    </ul>
+    <div class="note">Note: Frontend aur backend ke darmiyan communication aksar HTTP requests ke zariye hoti hai, aur APIs is communication ko structured banate hain.</div>
+
+    <h2>🔷 Node.js Introduction</h2>
+    <p>Node.js ek open-source, cross-platform runtime environment hai jo JavaScript ko browser ke bahar chalane ke liye banaya gaya hai. Ye server-side applications ke liye istemal hota hai.</p>
+    <ul>
+      <li><strong>Definition:</strong> Node.js JavaScript ko server par chala sakta hai, jo pehle sirf browsers mein chalta tha.</li>
+      <li><strong>Features:</strong> Ye fast, lightweight, aur real-time applications (chat apps, live updates) ke liye ideal hai.</li>
+      <li><strong>Single-threaded:</strong> Node.js ek single-threaded, non-blocking I/O model par kaam karta hai, jo isay efficient banata hai.</li>
+      <li><strong>Use Cases:</strong> Real-time apps (e.g., chat, gaming), APIs, microservices, streaming services, aur command-line tools.</li>
+    </ul>
+    <div class="note">Note: Node.js Google Chrome ke V8 JavaScript engine par chalta hai, jo isay bohat tezi deta hai.</div>
+
+    <h2>🛠️ Setting Up Node.js Environment</h2>
+    <p>Node.js install karna aur setup karna asaan hai. Ye steps follow karo:</p>
+    <ol>
+      <li>Official website (<code>nodejs.org</code>) se latest LTS version download karo.</li>
+      <li>Install karne ke baad, terminal mein <code>node -v</code> aur <code>npm -v</code> run karke check karo.</li>
+      <li>Ek simple file <code>app.js</code> banao aur isay run karo:</li>
+    </ol>
+    <div class="code-block">
+console.log("Hello from Node.js!");
+    </div>
+    <p>Run karne ke liye: <code>node app.js</code></p>
+    <div class="note">Note: LTS version stable hoti hai aur production ke liye recommended hai.</div>
+
+    <h2>🏃‍♂️ Running Basic Node.js Code</h2>
+    <p>Node.js mein code run karna bohat simple hai. Tum ek JavaScript file bana sakte ho aur usay terminal se run kar sakte ho.</p>
+    <p><strong>Example:</strong> Ek file <code>basic.js</code> banao:</p>
+    <div class="code-block">
+const name = "Node.js Student";
+console.log(`Hello, ${name}! Welcome to Node.js Class 1`);
+    </div>
+    <p>Isay run karne ke liye terminal mein type karo: <code>node basic.js</code></p>
+    <p><strong>REPL Mode:</strong> Node.js ka REPL (Read-Eval-Print-Loop) mode bhi hota hai jisme tum directly terminal mein JavaScript code likh sakte ho. Start karne ke liye: <code>node</code></p>
+    <div class="note">Note: REPL mode testing aur quick experiments ke liye bohat useful hai.</div>
+
+    <h2>📦 Node.js Modules</h2>
+    <p>Node.js mein modules code ko organize aur reuse karne ka tareeqa dete hain. Har module ek file ya collection of files hota hai jo specific functionality provide karta hai.</p>
+    <ul>
+      <li><strong>Built-in Modules:</strong> Node.js ke sath ate hain, jaise <code>fs</code>, <code>http</code>, <code>path</code>, aur <code>os</code>.</li>
+      <li><strong>Custom Modules:</strong> Tum apne modules bana sakte ho aur unhe <code>require</code> se import kar sakte ho.</li>
+      <li><strong>Third-party Modules:</strong> NPM se install kiye jate hain, jaise <code>express</code>, <code>lodash</code>.</li>
+    </ul>
+    <p><strong>Creating a Custom Module:</strong></p>
+    <div class="code-block">
+// math.js
+function add(a, b) {
+  return a + b;
+}
+
+function subtract(a, b) {
+  return a - b;
+}
+
+module.exports = { add, subtract };
+    </div>
+    <p><strong>Using the Custom Module:</strong></p>
+    <div class="code-block">
+// app.js
+const math = require('./math');
+
+console.log("Addition:", math.add(5, 3)); // Output: Addition: 8
+console.log("Subtraction:", math.subtract(5, 3)); // Output: Subtraction: 2
+    </div>
+    <div class="note">Note: <code>module.exports</code> se functions ya objects export kiye jate hain, aur <code>require</code> se import kiye jate hain.</div>
+
+    <h2>📦 Introduction to NPM</h2>
+    <p>NPM (Node Package Manager) Node.js ka package manager hai jo libraries aur dependencies install karne ke liye istemal hota hai.</p>
+    <ul>
+      <li><strong>Initialize Project:</strong> <code>npm init</code> ek <code>package.json</code> file banata hai jo project ke metadata aur dependencies ko track karta hai.</li>
+      <li><strong>Install Package:</strong> <code>npm install <package-name></code> se koi bhi package install kar sakte hain (e.g., <code>npm install chalk</code>).</li>
+      <li><strong>Using a Package:</strong> Ek example chalk ke sath:</li>
+    </ul>
+    <div class="code-block">
+const chalk = require('chalk');
+
+console.log(chalk.blue('Hello, this is colored text!'));
+    </div>
+    <div class="note">Note: <code>package.json</code> mein dependencies add karne ke liye <code>npm install <package> --save</code> use karo.</div>
+
+    <h2>📁 File System Operations</h2>
+    <p>Node.js ka <code>fs</code> (File System) module files ke sath kaam karne ke liye istemal hota hai, jaise read, write, append, aur delete.</p>
+    <p><strong>Reading a File:</strong></p>
+    <div class="code-block">
+const fs = require('fs');
+
+fs.readFile('hello.txt', 'utf8', (err, data) => {
+  if (err) {
+    console.error("Error reading file:", err);
+    return;
+  }
+  console.log("File content:", data);
+});
+    </div>
+    <p><strong>Writing to a File:</strong></p>
+    <div class="code-block">
+const fs = require('fs');
+
+fs.writeFile('output.txt', 'یہ ڈیٹا Node.js نے لکھا ہے!', (err) => {
+  if (err) {
+    console.error("Error writing file:", err);
+    return;
+  }
+  console.log("File written successfully!");
+});
+    </div>
+    <p><strong>Appending to a File:</strong></p>
+    <div class="code-block">
+const fs = require('fs');
+
+fs.appendFile('output.txt', '\nیہ نیا ڈیٹا ہے!', (err) => {
+  if (err) {
+    console.error("Error appending to file:", err);
+    return;
+  }
+  console.log("Data appended successfully!");
+});
+    </div>
+    <div class="note">Note: <code>fs</code> module synchronous aur asynchronous dono methods provide karta hai. Asynchronous methods zyada efficient hote hain.</div>
+
+    <h2>🧠 Node.js Architecture Explained</h2>
+    <p>Node.js ki architecture isay unique aur powerful banati hai. Ye asynchronous aur non-blocking operations par mabni hai.</p>
+    <ul>
+      <li><strong>Single Thread:</strong> Node.js mein sirf ek main thread hota hai jo application ke primary tasks ko handle karta hai. Ye resources ko efficiently use karta hai.</li>
+      <li><strong>Event Loop:</strong> Ye Node.js ka core hai jo asynchronous tasks ko manage karta hai. Jab koi task (jaise file read) complete hota hai, event loop callback ko execute karta hai.</li>
+      <li><strong>Libuv:</strong> Ye ek C++ library hai jo I/O operations (file reading, network requests) ko handle karti hai. Ye cross-platform compatibility bhi provide karta hai.</li>
+      <li><strong>Worker Threads:</strong> Intensive tasks ke liye Node.js worker threads provide karta hai jo multi-threading jaisa kaam karte hain.</li>
+    </ul>
+    <div class="note">Note: Event Loop ki wajah se Node.js ek hi waqt mein multiple tasks handle kar sakta hai bina block kiye.</div>
+
+    <h2>💡 Non-blocking I/O in Action</h2>
+    <p>Node.js ka non-blocking model isay allow karta hai ke wo ek task ke complete hone ka wait kiye bina dosre tasks ko handle kare.</p>
+    <div class="code-block">
+const fs = require('fs');
+
+fs.readFile('data.txt', 'utf8', (err, data) => {
+  if (err) {
+    console.error("Error reading file:", err);
+    return;
+  }
+  console.log("File data:", data);
+});
+
+console.log("Ye line pehle execute hogi kyunki readFile non-blocking hai...");
+    </div>
+    <p>Is example mein, <code>readFile</code> asynchronous hai, isliye "Ye line pehle execute hogi" pehle print hoga, aur file ka data baad mein jab read complete hoga.</p>
+
+    <h2>🌐 HTTP Protocol Deep Dive</h2>
+    <p>HTTP (HyperText Transfer Protocol) browser aur server ke darmiyan communication ka standard tareeqa hai.</p>
+    <ul>
+      <li><strong>Request Methods:</strong> Common methods hain GET (data retrieve), POST (data send), PUT (update), DELETE (remove).</li>
+      <li><strong>Response Status Codes:</strong> Ye batate hain ke request ka kya hua (e.g., 200 OK, 404 Not Found, 500 Server Error).</li>
+      <li><strong>Headers:</strong> Additional information provide karte hain, jaise Content-Type ya Authorization.</li>
+      <li><strong>Stateless Nature:</strong> Har HTTP request independent hoti hai, yani server ko yaad nahi hota ke pehli request kya thi.</li>
+    </ul>
+    <div class="note">Note: Cookies ya sessions ke through state maintain kiya ja sakta hai.</div>
+
+    <h2>📦 Creating a Simple HTTP Server</h2>
+    <p>Node.js ke <code>http</code> module se hum ek basic server bana sakte hain jo user requests ko handle karta hai.</p>
+    <div class="code-block">
+const http = require('http');
+
+const server = http.createServer((req, res) => {
+  res.writeHead(200, { 'Content-Type': 'text/plain; charset=utf-8' });
+  res.end('مرحبا! یہ Node.js سرور ہے');
+});
+
+server.listen(3000, () => {
+  console.log('Server is running on http://localhost:3000');
+});
+    </div>
+    <p>Is code mein, hum ek server create karte hain jo port 3000 par chalta hai aur ek simple message return karta hai.</p>
+
+    <h2>🔄 Synchronous vs Asynchronous in Node.js</h2>
+    <p>Node.js mein do tarah ke operations hote hain: synchronous aur asynchronous.</p>
+    <ul>
+      <li><strong>Synchronous:</strong> Ye operations ek ke baad ek execute hote hain aur main thread ko block karte hain. Example:</li>
+      <div class="code-block">
+const fs = require('fs');
+
+const data = fs.readFileSync('hello.txt', 'utf8');
+console.log("File content:", data);
+console.log("Ye line baad mein execute hogi...");
+      </div>
+      <li><strong>Asynchronous:</strong> Ye operations background mein chalte hain aur main thread ko block nahi karte. Example upar diya gaya hai.</li>
+    </ul>
+    <div class="note">Note: Asynchronous methods ko prefer karo kyunki ye performance ko behtar banate hain.</div>
+
+    <h2>🧪 Class Group Assignment (5 Students)</h2>
+    <p>Ye assignments students ke liye hain jo Node.js ke basics seekhne ke liye hain:</p>
+    <ol>
+      <li>Node.js install karo aur ek file banao jo terminal mein "Hello from Node!" print kare.</li>
+      <li>Ek Node.js file banao jo tumhara naam, course name, aur date print kare.</li>
+      <li>Ek custom module banao jo do numbers ka sum aur difference return kare, aur usay ek doosri file mein use karo.</li>
+      <li>Ek text file read karo aur uska content terminal mein display karo.</li>
+      <li>Ek file mein apna favorite quote ya message write karo using <code>fs.writeFile</code>.</li>
+      <li>Ek file mein data append karo using <code>fs.appendFile</code>.</li>
+      <li>Ek simple HTTP server banao jo browser mein "Welcome to Node Server" display kare jab <code>localhost:3000</code> visit kiya jaye.</li>
+      <li>NPM se <code>chalk</code> package install karo aur colored text terminal mein print karo.</li>
+    </ol>
+    <div class="code-block">
+const chalk = require('chalk');
+
+console.log(chalk.blue('Hello, this is colored text!'));
+    </div>
+
+    <h2>📚 Homework Assignment</h2>
+    <p>Ye homework Node.js ke practical concepts ko reinforce karega:</p>
+    <ol>
+      <li>Ek file <code>input.txt</code> banao aur usme kuch text likho (e.g., koi paragraph).</li>
+      <li>Node.js se <code>input.txt</code> ko read karo.</li>
+      <li>Read kiya hua text uppercase mein convert karo using <code>toUpperCase()</code>.</li>
+      <li>Converted text ko <code>output.txt</code> file mein save karo.</li>
+      <li>Ek HTTP server banao jo do routes handle kare: "/" (home) aur "/about" jo different messages return karein.</li>
+      <li>Ek custom module banao jo ek string ko reverse kare aur usay ek file mein use karo.</li>
+    </ol>
+    <div class="code-block">
+// reverseString.js
+function reverseString(str) {
+  return str.split('').reverse().join('');
+}
+module.exports = reverseString;
+
+// app.js
+const reverseString = require('./reverseString');
+console.log(reverseString('Hello, Node.js!')); // Output: !sj.edoN ,olleH
+    </div>
+    <div class="code-block">
+const http = require('http');
+
+const server = http.createServer((req, res) => {
+  res.writeHead(200, { 'Content-Type': 'text/plain; charset=utf-8' });
+  if (req.url === '/') {
+    res.end('ہوم پیج پر خوش آمدید!');
+  } else if (req.url === '/about') {
+    res.end('یہ ہمارے بارے میں پیج ہے!');
+  } else {
+    res.writeHead(404);
+    res.end('404: صفحہ نہیں ملا');
+  }
+});
+
+server.listen(3000, () => {
+  console.log('Server is running on http://localhost:3000');
+});
+    </div>
+
+  </div>
+</body>
+</html>

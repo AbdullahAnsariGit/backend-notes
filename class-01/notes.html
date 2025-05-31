@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="ur">
+<head>
+  <meta charset="UTF-8">
+  <title>MERN Notes - Dark Neon Theme</title>
+  <style>
+    body {
+      font-family: 'Arial', sans-serif;
+      margin: 0;
+      padding: 40px;
+      background: linear-gradient(135deg, #1a1a2e 0%, #16213e 100%);
+      color: #e0e0e0;
+      min-height: 100vh;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+    }
+    .container {
+      max-width: 800px;
+      width: 100%;
+      background: rgba(0, 0, 0, 0.7);
+      border-radius: 15px;
+      padding: 30px;
+      box-shadow: 0 0 30px rgba(0, 255, 255, 0.3), 
+                  0 0 60px rgba(255, 0, 255, 0.2);
+    }
+    h1 {
+      color: #00ffcc;
+      text-align: center;
+      font-size: 2.5em;
+      text-transform: uppercase;
+      text-shadow: 0 0 10px #00ffcc, 0 0 20px #00ffcc;
+      margin-bottom: 30px;
+    }
+    h2 {
+      color: #ff00ff;
+      font-size: 1.8em;
+      margin-top: 30px;
+      text-shadow: 0 0 8px #ff00ff;
+    }
+    ul {
+      list-style-type: none;
+      padding-left: 0;
+    }
+    li {
+      background: rgba(255, 255, 255, 0.05);
+      margin: 15px 0;
+      padding: 20px;
+      border-radius: 10px;
+      border: 1px solid #00ffcc;
+      box-shadow: 0 5px 15px rgba(0, 255, 255, 0.2),
+                  inset 0 0 10px rgba(255, 0, 255, 0.1);
+      transition: transform 0.3s, box-shadow 0.3s;
+    }
+    li:hover {
+      transform: translateY(-5px) scale(1.02);
+      box-shadow: 0 10px 25px rgba(0, 255, 255, 0.4),
+                  inset 0 0 15px rgba(255, 0, 255, 0.2);
+    }
+    strong {
+      color: #ff4d4d;
+      text-shadow: 0 0 5px #ff4d4d;
+    }
+    code {
+      background: rgba(0, 255, 255, 0.1);
+      padding: 3px 8px;
+      border-radius: 5px;
+      color: #00ffcc;
+      text-shadow: 0 0 5px #00ffcc;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h1>Web Application Architecture</h1>
+    <ul>
+      <li><strong>Users:</strong> Data collect aur results dekhte hain.</li>
+      <li><strong>Frontend:</strong> HTML, CSS, JavaScript se banaya jata hai (jo users dekhte hain).</li>
+      <li><strong>Web Server:</strong> Node + Express requests handle karta hai.</li>
+      <li><strong>Backend:</strong> File system (files store karta hai) aur database (data manage karta hai) se kaam hota hai.</li>
+    </ul>
+
+    <h2>File System</h2>
+    <ul>
+      <li>Files (HTML, CSS, images) ko store aur organize karta hai.</li>
+      <li><strong>Example:</strong> "public/images/logo.png" ko Express ke saath serve karna (<code>app.use(express.static('public'));</code>) aur React mein <code><img src="/images/logo.png" /></code> se use karna.</li>
+    </ul>
+
+    <h2>MERN Stack</h2>
+    <ul>
+      <li><strong>React:</strong> Frontend ke liye (UI banata hai).</li>
+      <li><strong>Node + Express:</strong> Backend aur web server kaam (requests handle karte hain).</li>
+      <li><strong>MongoDB:</strong> Data store karta hai (NoSQL).</li>
+    </ul>
+  </div>
+</body>
+</html>
