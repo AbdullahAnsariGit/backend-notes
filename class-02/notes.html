@@ -1,0 +1,371 @@
+<!DOCTYPE html>
+<html lang="ur">
+<head>
+  <meta charset="UTF-8">
+  <title>Node.js Class 2 - Detailed Notes</title>
+  <style>
+    body {
+      font-family: 'Arial', sans-serif;
+      margin: 0;
+      padding: 40px;
+      background: linear-gradient(135deg, #1a1a2e 0%, #16213e 100%);
+      color: #e0e0e0;
+      min-height: 100vh;
+    }
+    .container {
+      max-width: 900px;
+      margin: auto;
+      background: rgba(0, 0, 0, 0.7);
+      border-radius: 15px;
+      padding: 30px;
+      box-shadow: 0 0 30px rgba(0, 255, 255, 0.3), 
+                  0 0 60px rgba(255, 0, 255, 0.2);
+    }
+    h1, h2 {
+      text-align: center;
+      color: #00ffcc;
+      text-shadow: 0 0 10px #00ffcc;
+    }
+    h2 {
+      margin-top: 40px;
+      color: #ff00ff;
+      text-shadow: 0 0 8px #ff00ff;
+    }
+    ul, ol {
+      padding-left: 20px;
+    }
+    li {
+      margin-bottom: 10px;
+      line-height: 1.6;
+    }
+    .code-block {
+      background: rgba(255, 255, 255, 0.05);
+      border-left: 5px solid #00ffcc;
+      padding: 15px;
+      margin: 15px 0;
+      font-family: 'Courier New', monospace;
+      white-space: pre-wrap;
+      border-radius: 10px;
+      font-size: 14px;
+    }
+    strong {
+      color: #ff4d4d;
+    }
+    p {
+      line-height: 1.8;
+    }
+    .note {
+      background: rgba(0, 255, 255, 0.1);
+      padding: 10px;
+      border-radius: 8px;
+      margin: 10px 0;
+      font-style: italic;
+    }
+    .usecase {
+      background: rgba(255, 0, 255, 0.1);
+      padding: 10px;
+      border-radius: 8px;
+      margin: 10px 0;
+      font-style: italic;
+      color: #ffd700;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h1>Node.js - Class 2 Detailed Notes (3-Hour Session)</h1>
+
+    <h2>📁 File System (fs) Module - Detail Mein</h2>
+    <p>Node.js ka <strong>fs</strong> (File System) module files ke saath kaam karne ke liye hota hai. Ye read, write, append, delete aur directories manage karne ke liye use hota hai.</p>
+    <ul>
+      <li><strong>Asynchronous Methods:</strong> Ye non-blocking hote hain, yani background mein chalte hain (jaise <code>fs.readFile</code>, <code>fs.writeFile</code>).</li>
+      <li><strong>Synchronous Methods:</strong> Ye blocking hote hain aur main thread ko rok dete hain (jaise <code>fs.readFileSync</code>, <code>fs.writeFileSync</code>).</li>
+      <li><strong>Key Operations:</strong> File read, write, append, delete, aur folder creation.</li>
+    </ul>
+    <p><strong>Example: Reading a File Asynchronously</strong></p>
+    <div class="code-block">
+const fs = require('fs');
+
+fs.readFile('userData.txt', 'utf8', (err, data) => {
+  if (err) {
+    console.error("File read karne mein error:", err);
+    return;
+  }
+  console.log("File ka content:", data);
+});
+    </div>
+    <p><strong>Example: Writing to a File Asynchronously</strong></p>
+    <div class="code-block">
+const fs = require('fs');
+
+fs.writeFile('log.txt', 'Ye log entry hai: User ne login kiya!', (err) => {
+  if (err) {
+    console.error("File likhne mein error:", err);
+    return;
+  }
+  console.log("File mein data likh diya gaya!");
+});
+    </div>
+    <p><strong>Example: Appending to a File</strong></p>
+    <div class="code-block">
+const fs = require('fs');
+
+fs.appendFile('log.txt', '\nNaya log: User ne profile update kiya!', (err) => {
+  if (err) {
+    console.error("File mein append karne mein error:", err);
+    return;
+  }
+  console.log("Data append ho gaya!");
+});
+    </div>
+    <p><strong>Example: Deleting a File</strong></p>
+    <div class="code-block">
+const fs = require('fs');
+
+fs.unlink('temp.txt', (err) => {
+  if (err) {
+    console.error("File delete karne mein error:", err);
+    return;
+  }
+  console.log("File delete ho gayi!");
+});
+    </div>
+    <p><strong>Example: Creating a Directory</strong></p>
+    <div class="code-block">
+const fs = require('fs');
+
+fs.mkdir('userFiles', (err) => {
+  if (err) {
+    console.error("Folder banane mein error:", err);
+    return;
+  }
+  console.log("Folder ban gaya!");
+});
+    </div>
+    <div class="usecase">Real-World Use Case: WhatsApp uses file system operations to store user media (images, videos) temporarily on servers before transferring them. For example, jab koi user photo upload karta hai, server usay ek temporary file mein save karta hai using <code>fs.writeFile</code>, aur phir process hone ke baad delete karta hai.</div>
+    <div class="note">Note: Asynchronous methods zyada efficient hote hain kyunki ye main thread ko block nahi karte. Synchronous methods sirf chhote scripts ya testing ke liye use karo.</div>
+
+    <h2>🌐 HTTP Module - Advanced Features</h2>
+    <p>Node.js ka <strong>http</strong> module servers banane aur requests handle karne ke liye hota hai. Is se hum dynamic responses aur routes bana sakte hain.</p>
+    <ul>
+      <li><strong>Server Creation:</strong> Ek server jo incoming HTTP requests ko process karta hai.</li>
+      <li><strong>Dynamic Routing:</strong> Alag alag URLs ke liye different responses.</li>
+      <li><strong>Response Types:</strong> Text, HTML, ya JSON responses bhejna.</li>
+    </ul>
+    <p><strong>Example: Multi-Route HTTP Server</strong></p>
+    <div class="code-block">
+const http = require('http');
+
+const server = http.createServer((req, res) => {
+  res.writeHead(200, { 'Content-Type': 'text/plain; charset=utf-8' });
+  if (req.url === '/') {
+    res.end('Home page par khush amdeed!');
+  } else if (req.url === '/products') {
+    res.end('Yahan products list hai!');
+  } else if (req.url === '/cart') {
+    res.end('Apka shopping cart yahan hai!');
+  } else {
+    res.writeHead(404);
+    res.end('404: Page nahi mila');
+  }
+});
+
+server.listen(3000, () => {
+  console.log('Server chal raha hai: http://localhost:3000');
+});
+    </div>
+    <p><strong>Example: Serving a Dynamic HTML Page</strong></p>
+    <div class="code-block">
+const http = require('http');
+
+const server = http.createServer((req, res) => {
+  res.writeHead(200, { 'Content-Type': 'text/html; charset=utf-8' });
+  res.end(`
+    <!DOCTYPE html>
+    <html>
+      <head>
+        <title>E-commerce Store</title>
+      </head>
+      <body>
+        <h1>Khush Amdeed to Our Store!</h1>
+        <p>Latest products dekhein aur cart mein add karein.</p>
+      </body>
+    </html>
+  `);
+});
+
+server.listen(3000, () => {
+  console.log('Server chal raha hai: http://localhost:3000');
+});
+    </div>
+    <div class="usecase">Real-World Use Case: Daraz.pk jaisi websites Node.js ke HTTP module ka use karti hain to handle user requests for product pages, cart, aur checkout. Har request ke liye server dynamic HTML ya JSON response bhejta hai based on user ke URL aur actions.</div>
+    <div class="note">Note: HTML serve karte waqt <code>Content-Type</code> ko <code>text/html</code> set karna zaroori hai taake browser content ko sahi se render kare.</div>
+
+    <h2>🔗 URL Module - URLs ko Samajhna aur Parse Karna</h2>
+    <p>Node.js ka <strong>url</strong> module URLs ke components ko parse aur manipulate karne ke liye hota hai. Ye query parameters aur path ko extract karne mein madad karta hai.</p>
+    <ul>
+      <li><strong>URL Parsing:</strong> URL ke hisson jaise protocol, host, path, aur query ko alag karna.</li>
+      <li><strong>Query Parameters:</strong> URL ke query string se data nikalna (jaise <code>name=Ali</code>).</li>
+    </ul>
+    <p><strong>Example: Parsing a URL</strong></p>
+    <div class="code-block">
+const url = require('url');
+
+const myURL = 'http://example.com:8080/search?product=phone&brand=apple';
+const parsedURL = url.parse(myURL, true);
+
+console.log("Protocol:", parsedURL.protocol); // Output: Protocol: http:
+console.log("Host:", parsedURL.host); // Output: Host: example.com:8080
+console.log("Pathname:", parsedURL.pathname); // Output: Pathname: /search
+console.log("Query:", parsedURL.query); // Output: Query: { product: 'phone', brand: 'apple' }
+    </div>
+    <p><strong>Example: Dynamic Greeting with Query Parameters</strong></p>
+    <div class="code-block">
+const http = require('http');
+const url = require('url');
+
+const server = http.createServer((req, res) => {
+  const parsedURL = url.parse(req.url, true);
+  res.writeHead(200, { 'Content-Type': 'text/plain; charset=utf-8' });
+  
+  if (parsedURL.pathname === '/greet') {
+    const name = parsedURL.query.name || 'Guest';
+    res.end(`Salam, ${name}! Apka swagat hai!`);
+  } else {
+    res.end('Home page par khush amdeed!');
+  }
+});
+
+server.listen(3000, () => {
+  console.log('Server chal raha hai: http://localhost:3000');
+});
+    </div>
+    <p>Is example mein, agar tum <code>http://localhost:3000/greet?name=Ali</code> visit karoge, to server "Salam, Ali! Apka swagat hai!" return karega.</p>
+    <div class="usecase">Real-World Use Case: Amazon jaisi websites URL query parameters ka use karti hain search filters ke liye (e.g., <code>/search?category=electronics&price=under-500</code>). Node.js ka URL module in parameters ko parse karta hai taake server relevant products display kare.</div>
+    <div class="note">Note: <code>url.parse</code> ke saath <code>true</code> parameter query string ko object mein convert karta hai, jo data access ko asaan banata hai.</div>
+
+    <h2>🔄 HTTP Methods - Detail aur Implementation</h2>
+    <p>HTTP methods (ya verbs) batate hain ke client server se kya action chahta hai. Ye web development ka core hissa hain.</p>
+    <ul>
+      <li><strong>GET:</strong> Data retrieve karne ke liye (jaise product details ya user profile).</li>
+      <li><strong>POST:</strong> Data server par send karne ke liye (jaise form submit ya user signup).</li>
+      <li><strong>PUT:</strong> Existing resource ko update karne ke liye (jaise user profile edit).</li>
+      <li><strong>DELETE:</strong> Resource delete karne ke liye (jaise cart item remove).</li>
+    </ul>
+    <p><strong>Example: Handling GET and POST Requests</strong></p>
+    <div class="code-block">
+const http = require('http');
+const url = require('url');
+
+const server = http.createServer((req, res) => {
+  const parsedURL = url.parse(req.url, true);
+  res.writeHead(200, { 'Content-Type': 'text/plain; charset=utf-8' });
+
+  if (req.method === 'GET' && parsedURL.pathname === '/products') {
+    res.end('Yahan products ki list hai!');
+  } else if (req.method === 'POST' && parsedURL.pathname === '/order') {
+    let body = '';
+    req.on('data', chunk => {
+      body += chunk.toString();
+    });
+    req.on('end', () => {
+      res.end(`Order mil gaya: ${body}`);
+    });
+  } else {
+    res.writeHead(404);
+    res.end('404: Page ya method nahi mila');
+  }
+});
+
+server.listen(3000, () => {
+  console.log('Server chal raha hai: http://localhost:3000');
+});
+    </div>
+    <p>Is example mein, GET request products list ke liye hai, aur POST request order data submit karne ke liye. POST ke liye body data chunks mein aata hai, isliye <code>req.on('data')</code> aur <code>req.on('end')</code> use hota hai.</p>
+    <div class="usecase">Real-World Use Case: Foodpanda ya Uber Eats jaisi apps POST requests ka use karti hain jab user order place karta hai. Ye data (jaise food items, address) server par bheja jata hai, aur server usay process karke confirmation bhejta hai.</div>
+    <div class="note">Note: POST requests ke liye body parsing carefully karna zaroori hai kyunki data chunks mein aata hai.</div>
+
+    <h2>🧪 Class Group Assignment (5 Students)</h2>
+    <p>Ye assignments Class 2 ke concepts ko mazboot karne ke liye hain:</p>
+    <ol>
+      <li>Ek file <code>userLog.txt</code> banao aur usme user ka naam aur timestamp likho using <code>fs.writeFile</code>.</li>
+      <li>Ek file read karo aur uska content lowercase mein convert karke <code>output.txt</code> mein save karo.</li>
+      <li>Ek folder banao aur usme ek file create karo jisme random text ho using <code>fs.mkdir</code> aur <code>fs.writeFile</code>.</li>
+      <li>Ek HTTP server banao jo 4 routes handle kare: "/", "/products", "/cart", aur "/checkout", har ek alag message ya HTML page return kare.</li>
+      <li>Ek server banao jo URL query parameters se "username" aur "city" le aur personalized message return kare (e.g., <code>/welcome?username=Ali&city=Karachi</code>).</li>
+      <li>Ek server banao jo GET aur POST requests handle kare. POST request ka data ek file mein save kare.</li>
+    </ol>
+
+    <h2>📚 Homework Assignment</h2>
+    <p>Ye homework Class 2 ke concepts ko aur mazboot karega:</p>
+    <ol>
+      <li>Ek file <code>input.txt</code> banao aur usme ek chhota paragraph likho.</li>
+      <li>Is file ko read karo aur text ko reverse karke <code>output.txt</code> mein save karo.</li>
+      <li>Ek HTTP server banao jo ek simple HTML form serve kare jab "/" route visit kiya jaye.</li>
+      <li>Ek server banao jo query parameters se "product" aur "price" le aur JSON response return kare (e.g., <code>{"product": "Laptop", "price": 50000}</code>).</li>
+      <li>Ek server banao jo POST request se user data (jaise name, email) le aur usay <code>users.txt</code> mein append kare.</li>
+    </ol>
+    <div class="code-block">
+const http = require('http');
+const url = require('url');
+const fs = require('fs');
+
+const server = http.createServer((req, res) => {
+  const parsedURL = url.parse(req.url, true);
+  
+  if (req.method === 'GET' && parsedURL.pathname === '/product') {
+    res.writeHead(200, { 'Content-Type': 'application/json; charset=utf-8' });
+    const response = {
+      product: parsedURL.query.product || 'Unknown',
+      price: parsedURL.query.price || '0'
+    };
+    res.end(JSON.stringify(response));
+  } else if (req.method === 'POST' && parsedURL.pathname === '/register') {
+    let body = '';
+    req.on('data', chunk => {
+      body += chunk.toString();
+    });
+    req.on('end', () => {
+      fs.appendFile('users.txt', `${body}\n`, (err) => {
+        if (err) {
+          res.writeHead(500);
+          res.end('Data save karne mein error');
+          return;
+        }
+        res.writeHead(200, { 'Content-Type': 'text/plain; charset=utf-8' });
+        res.end('User data save ho gaya!');
+      });
+    });
+  } else if (req.method === 'GET' && parsedURL.pathname === '/') {
+    res.writeHead(200, { 'Content-Type': 'text/html; charset=utf-8' });
+    res.end(`
+      <!DOCTYPE html>
+      <html>
+        <head>
+          <title>User Form</title>
+        </head>
+        <body>
+          <h1>User Registration</h1>
+          <form action="/register" method="POST">
+            <label>Name: </label><input type="text" name="name"><br>
+            <label>Email: </label><input type="email" name="email"><br>
+            <button type="submit">Submit</button>
+          </form>
+        </body>
+      </html>
+    `);
+  } else {
+    res.writeHead(404);
+    res.end('404: Page nahi mila');
+  }
+});
+
+server.listen(3000, () => {
+  console.log('Server chal raha hai: http://localhost:3000');
+});
+    </div>
+    <div class="usecase">Real-World Use Case: LinkedIn jaisi platform user data (jaise profile updates ya job applications) POST requests ke through collect karti hai aur usay server par files ya databases mein store karti hai.</div>
+
+  </div>
+</body>
+</html>
