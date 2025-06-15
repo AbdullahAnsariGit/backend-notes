@@ -1,0 +1,456 @@
+<!DOCTYPE html>
+<html lang="ur">
+<head>
+  <meta charset="UTF-8">
+  <title>Node.js Class 4 - Detailed Notes</title>
+  <style>
+    body {
+      font-family: 'Arial', sans-serif;
+      margin: 0;
+      padding: 40px;
+      background: linear-gradient(135deg, #1a1a2e 0%, #16213e 100%);
+      color: #e0e0e0;
+      min-height: 100vh;
+    }
+    .container {
+      max-width: 900px;
+      margin: auto;
+      background: rgba(0, 0, 0, 0.7);
+      border-radius: 15px;
+      padding: 30px;
+      box-shadow: 0 0 30px rgba(0, 255, 255, 0.3), 
+                  0 0 60px rgba(255, 0, 255, 0.2);
+    }
+    h1, h2 {
+      text-align: center;
+      color: #00ffcc;
+      text-shadow: 0 0 10px #00ffcc;
+    }
+    h2 {
+      margin-top: 40px;
+      color: #ff00ff;
+      text-shadow: 0 0 8px #ff00ff;
+    }
+    ul, ol {
+      padding-left: 20px;
+    }
+    li {
+      margin-bottom: 10px;
+      line-height: 1.6;
+    }
+    .code-block {
+      background: rgba(255, 255, 255, 0.05);
+      border-left: 5px solid #00ffcc;
+      padding: 15px;
+      margin: 15px 0;
+      font-family: 'Courier New', monospace;
+      white-space: pre-wrap;
+      border-radius: 10px;
+      font-size: 14px;
+    }
+    strong {
+      color: #ff4d4d;
+    }
+    p {
+      line-height: 1.8;
+    }
+    .note {
+      background: rgba(0, 255, 255, 0.1);
+      padding: 10px;
+      border-radius: 8px;
+      margin: 10px 0;
+      font-style: italic;
+    }
+    .usecase {
+      background: rgba(255, 0, 255, 0.1);
+      padding: 10px;
+      border-radius: 8px;
+      margin: 10px 0;
+      font-style: italic;
+      color: #ffd700;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h1>Node.js - Class 4 Detailed Notes (3-Hour Session)</h1>
+
+    <h2>📋 Review of Previous Classes</h2>
+    <p>Pehli teen classes mein hum ne Node.js ke basics, <strong>fs</strong>, <strong>http</strong>, aur <strong>url</strong> modules seekhe. Ab Class 4 mein hum <strong>HTTP methods</strong>, <strong>package versioning</strong>, <strong>REST APIs</strong>, <strong>Postman</strong>, <strong>Express.js</strong>, <strong>middleware</strong>, aur <strong>HTTP status codes</strong> par focus karenge.</p>
+    <div class="note">Note: Ye topics modern web development ke liye zaroori hain aur real-world apps mein bohat use hote hain.</div>
+
+    <h2>🌐 HTTP Methods - Detail Mein</h2>
+    <p>HTTP methods (ya verbs) batate hain ke client server se kya action chahta hai. Ye web apps ka core hissa hain.</p>
+    <ul>
+      <li><strong>GET:</strong> Data retrieve karna (jaise product details).</li>
+      <li><strong>POST:</strong> Naya data create ya submit karna (jaise form submission).</li>
+      <li><strong>PUT:</strong> Existing data update karna (jaise user profile edit).</li>
+      <li><strong>DELETE:</strong> Data delete karna (jaise cart item remove).</li>
+      <li><strong>PATCH:</strong> Data ke specific parts update karna.</li>
+    </ul>
+    <p><strong>Example: HTTP Methods in Action</strong></p>
+    <div class="code-block">
+const http = require('http');
+
+const server = http.createServer((req, res) => {
+  res.setHeader('Content-Type', 'text/plain; charset=utf-8');
+  
+  if (req.method === 'GET' && req.url === '/products') {
+    res.writeHead(200);
+    res.end('Products ki list yahan hai!');
+  } else if (req.method === 'POST' && req.url === '/products') {
+    let body = '';
+    req.on('data', chunk => body += chunk);
+    req.on('end', () => {
+      res.writeHead(201);
+      res.end(`Naya product create hua: ${body}`);
+    });
+  } else if (req.method === 'PUT' && req.url === '/products/1') {
+    res.writeHead(200);
+    res.end('Product ID 1 update ho gaya!');
+  } else if (req.method === 'DELETE' && req.url === '/products/1') {
+    res.writeHead(200);
+    res.end('Product ID 1 delete ho gaya!');
+  } else {
+    res.writeHead(404);
+    res.end('404: Page nahi mila');
+  }
+});
+
+server.listen(3000, () => {
+  console.log('Server chal raha hai: http://localhost:3000');
+});
+    </div>
+    <div class="usecase">Real-World Use Case: Foodpanda GET ka use karta hai restaurant menus dikhane ke liye, POST order place karne ke liye, PUT delivery status update karne ke liye, aur DELETE order cancel karne ke liye.</div>
+    <div class="note">Note: Har HTTP method ka specific role hota hai, aur REST APIs ke liye sahi method ka use zaroori hai.</div>
+
+    <h2>🔢 Package Versioning in Node.js</h2>
+    <p>Node.js mein package versioning <strong>NPM</strong> ke through manage hoti hai. Har package ka version number hota hai (jaise <code>1.2.3</code>), jo <strong>Semantic Versioning (SemVer)</strong> ke rules follow karta hai. Ye batata hai ke package ka update kitna significant hai.</p>
+    <ul>
+      <li><strong>Semantic Versioning (SemVer):</strong> Version number <code>MAJOR.MINOR.PATCH</code> format mein hota hai:
+        <ul>
+          <li><strong>MAJOR:</strong> Breaking changes (purana code kaam nahi karega, e.g., <code>2.0.0</code>).</li>
+          <li><strong>MINOR:</strong> New features jo backward compatible hain (e.g., <code>1.3.0</code>).</li>
+          <li><strong>PATCH:</strong> Bug fixes jo backward compatible hain (e.g., <code>1.2.4</code>).</li>
+        </ul>
+      </li>
+      <li><strong>Version Symbols:</strong> <code>package.json</code> mein version ke saath symbols use hote hain:
+        <ul>
+          <li><strong>Exact Version:</strong> <code>"express": "4.17.1"</code> - Sirf yahi version install hoga.</li>
+          <li><strong>Caret (^):</strong> <code>"express": "^4.17.1"</code> - Minor aur patch updates allow hain (e.g., <code>4.x.x</code>, lekin <code>5.0.0</code> nahi).</li>
+          <li><strong>Tilde (~):</strong> <code>"express": "~4.17.1"</code> - Sirf patch updates allow hain (e.g., <code>4.17.x</code>).</li>
+          <li><strong>Latest:</strong> <code>"express": "latest"</code> - Hamesha newest version install hota hai (risky hai).</li>
+        </ul>
+      </li>
+      <li><strong>package.json:</strong> Dependencies aur versions yahan define hote hain.</li>
+      <li><strong>Commands:</strong>
+        <ul>
+          <li><code>npm install express</code>: Latest version install karta hai.</li>
+          <li><code>npm install express@4.17.1</code>: Specific version install karta hai.</li>
+          <li><code>npm update</code>: Dependencies ko allowed version range ke andar update karta hai.</li>
+          <li><code>npm outdated</code>: Outdated packages ki list dikhata hai.</li>
+        </ul>
+      </li>
+    </ul>
+    <p><strong>Example: package.json with Versioning</strong></p>
+    <div class="code-block">
+{
+  "name": "my-app",
+  "version": "1.0.0",
+  "dependencies": {
+    "express": "^4.17.1",
+    "lodash": "~4.17.21",
+    "chalk": "4.1.2"
+  }
+}
+    </div>
+    <p>Is example mein:
+      - <code>express</code> ke minor aur patch updates install ho sakte hain (e.g., <code>4.18.0</code>, lekin <code>5.0.0</code> nahi).
+      - <code>lodash</code> ke sirf patch updates install honge (e.g., <code>4.17.22</code>).
+      - <code>chalk</code> ka exact version <code>4.1.2</code> install hoga.</p>
+    <p><strong>Example: Checking and Updating Packages</strong></p>
+    <div class="code-block">
+// Terminal commands
+npm install express@^4.17.1
+npm outdated // Check outdated packages
+npm update // Update packages within version range
+    </div>
+    <div class="usecase">Real-World Use Case: Netflix apne Node.js projects mein <code>^</code> versioning ka use karta hai taake minor updates aur bug fixes automatically mil sakein, lekin major breaking changes se bacha jaye.</div>
+    <div class="note">Note: <code>^</code> aur <code>~</code> ka use production mein carefully karo, aur hamesha <code>package-lock.json</code> commit karo taake exact versions lock ho jayein.</div>
+
+    <h2>🌐 REST APIs in Node.js</h2>
+    <p><strong>REST (Representational State Transfer)</strong> ek architectural style hai jo APIs ko structured aur scalable banata hai. Ye resources ke sath CRUD operations define karta hai.</p>
+    <ul>
+      <li><strong>Principles:</strong> Stateless, client-server, cacheable, uniform interface.</li>
+      <li><strong>HTTP Methods:</strong> GET (read), POST (create), PUT/PATCH (update), DELETE (delete).</li>
+      <li><strong>Endpoints:</strong> Resources ke liye unique URLs (e.g., <code>/api/users</code>).</li>
+    </ul>
+    <p><strong>Example: Basic REST API without Express</strong></p>
+    <div class="code-block">
+const http = require('http');
+
+let users = [{ id: 1, name: 'Ali' }];
+
+const server = http.createServer((req, res) => {
+  res.setHeader('Content-Type', 'application/json; charset=utf-8');
+  
+  if (req.method === 'GET' && req.url === '/api/users') {
+    res.writeHead(200);
+    res.end(JSON.stringify(users));
+  } else if (req.method === 'POST' && req.url === '/api/users') {
+    let body = '';
+    req.on('data', chunk => body += chunk);
+    req.on('end', () => {
+      const newUser = JSON.parse(body);
+      newUser.id = users.length + 1;
+      users.push(newUser);
+      res.writeHead(201);
+      res.end(JSON.stringify(newUser));
+    });
+  } else {
+    res.writeHead(404);
+    res.end(JSON.stringify({ error: 'Route nahi mila' }));
+  }
+});
+
+server.listen(3000, () => {
+  console.log('Server chal raha hai: http://localhost:3000');
+});
+    </div>
+    <div class="usecase">Real-World Use Case: YouTube REST APIs ka use karta hai videos, comments, aur playlists manage karne ke liye. GET se video details, POST se naya comment, aur DELETE se comment remove hota hai.</div>
+    <div class="note">Note: REST APIs JSON responses dete hain, jo frontend aur mobile apps ke liye asaan hote hain.</div>
+
+    <h2>🛠️ Introduction to Postman</h2>
+    <p><strong>Postman</strong> ek powerful tool hai jo APIs ko test karne ke liye use hota hai. Ye HTTP requests bhejne aur responses check karne mein madad deta hai.</p>
+    <ul>
+      <li><strong>Features:</strong> GET, POST, PUT, DELETE requests banane, headers set karne, aur JSON body bhejne ka option.</li>
+      <li><strong>Use Cases:</strong> API debugging, testing, aur documentation.</li>
+      <li><strong>Setup:</strong> Postman website (<code>postman.com</code>) se download aur install karo.</li>
+    </ul>
+    <p><strong>Example: Testing with Postman</strong></p>
+    <p>1. GET request bhejo <code>http://localhost:3000/api/users</code> par aur users ki list dekho.</p>
+    <p>2. POST request bhejo <code>http://localhost:3000/api/users</code> par body mein: <code>{"name": "Sara"}</code>.</p>
+    <div class="usecase">Real-World Use Case: Developers Uber APIs ko Postman mein test karte hain taake ride booking ya payment endpoints verify ho sakein.</div>
+    <div class="note">Note: Postman mein collections banao taake multiple requests ko organize kiya ja sake.</div>
+
+    <h2>🌐 REST APIs Using Express</h2>
+    <p>Express.js REST APIs banane ko simple aur fast banata hai kyunki ye routing aur middleware provide karta hai.</p>
+    <ul>
+      <li><strong>Benefits:</strong> Kam code, built-in JSON parsing, aur flexible endpoints.</li>
+      <li><strong>Setup:</strong> <code>npm install express</code> aur <code>express.json()</code> middleware use karo.</li>
+    </ul>
+    <p><strong>Example: REST API for Books</strong></p>
+    <div class="code-block">
+const express = require('express');
+const app = express();
+
+app.use(express.json());
+
+let books = [
+  { id: 1, title: 'Book 1', price: 500 },
+  { id: 2, title: 'Book 2', price: 300 }
+];
+
+// Get all books
+app.get('/api/books', (req, res) => {
+  res.json(books);
+});
+
+// Get single book
+app.get('/api/books/:id', (req, res) => {
+  const book = books.find(b => b.id === parseInt(req.params.id));
+  if (!book) return res.status(404).json({ error: 'Book nahi mili' });
+  res.json(book);
+});
+
+// Create book
+app.post('/api/books', (req, res) => {
+  const book = {
+    id: books.length + 1,
+    title: req.body.title,
+    price: req.body.price
+  };
+  books.push(book);
+  res.status(201).json(book);
+});
+
+// Update book
+app.put('/api/books/:id', (req, res) => {
+  const book = books.find(b => b.id === parseInt(req.params.id));
+  if (!book) return res.status(404).json({ error: 'Book nahi mili' });
+  book.title = req.body.title || book.title;
+  book.price = req.body.price || book.price;
+  res.json(book);
+});
+
+// Delete book
+app.delete('/api/books/:id', (req, res) => {
+  const index = books.findIndex(b => b.id === parseInt(req.params.id));
+  if (index === -1) return res.status(404).json({ error: 'Book nahi mili' });
+  const deleted = books.splice(index, 1);
+  res.json(deleted);
+});
+
+app.listen(3000, () => {
+  console.log('Server chal raha hai: http://localhost:3000');
+});
+    </div>
+    <div class="usecase">Real-World Use Case: Goodreads Express REST APIs ka use karta hai books, reviews, aur user data manage karne ke liye.</div>
+    <div class="note">Note: <code>express.json()</code> POST aur PUT requests ke liye body parse karta hai.</div>
+
+    <h2>🛠️ Middleware in Express</h2>
+    <p><strong>Middleware</strong> Express mein request aur response ke darmiyan chalne wale functions hote hain. Ye logging, validation, ya error handling ke liye use hote hain.</p>
+    <ul>
+      <li><strong>Types:</strong> Application-level, route-level, aur error-handling middleware.</li>
+      <li><strong>Flow:</strong> Middleware <code>next()</code> call karta hai agle handler ko chalne ke liye.</li>
+    </ul>
+    <p><strong>Example: Logging and Validation Middleware</strong></p>
+    <div class="code-block">
+const express = require('express');
+const app = express();
+
+app.use(express.json());
+
+// Logging middleware
+app.use((req, res, next) => {
+  console.log(`[${new Date().toISOString()}] ${req.method} ${req.url}`);
+  next();
+});
+
+// Validation middleware
+app.use('/api/books', (req, res, next) => {
+  if (req.method === 'POST' && !req.body.title) {
+    return res.status(400).json({ error: 'Book title zaroori hai' });
+  }
+  next();
+});
+
+app.post('/api/books', (req, res) => {
+  res.status(201).json({ message: 'Book create ho gayi!', title: req.body.title });
+});
+
+app.listen(3000, () => {
+  console.log('Server chal raha hai: http://localhost:3000');
+});
+    </div>
+    <div class="usecase">Real-World Use Case: Airbnb middleware ka use karta hai request logging aur user input validation ke liye taake invalid data server tak na jaye.</div>
+    <div class="note">Note: Middleware ko routes se pehle define karo taake request process hone se pehle kaam kare.</div>
+
+    <h2>🔍 HTTP Status Codes</h2>
+    <p>HTTP status codes server ke response ka status batate hain. Ye client ko request ke result ke bare mein inform karte hain.</p>
+    <ul>
+      <li><strong>2xx (Success):</strong> 200 (OK), 201 (Created).</li>
+      <li><strong>4xx (Client Error):</strong> 400 (Bad Request), 404 (Not Found).</li>
+      <li><strong>5xx (Server Error):</strong> 500 (Internal Server Error).</li>
+    </ul>
+    <p><strong>Example: Status Codes in Express</strong></p>
+    <div class="code-block">
+const express = require('express');
+const app = express();
+
+app.use(express.json());
+
+app.get('/api/books/:id', (req, res) => {
+  const id = parseInt(req.params.id);
+  if (isNaN(id)) {
+    return res.status(400).json({ error: 'Invalid ID' });
+  }
+  if (id > 100) {
+    return res.status(404).json({ error: 'Book nahi mili' });
+  }
+  res.status(200).json({ id, title: 'Sample Book' });
+});
+
+app.post('/api/books', (req, res) => {
+  try {
+    const book = { id: 1, title: req.body.title };
+    res.status(201).json(book);
+  } catch (err) {
+    res.status(500).json({ error: 'Server error' });
+  }
+});
+
+app.listen(3000, () => {
+  console.log('Server chal raha hai: http://localhost:3000');
+});
+    </div>
+    <div class="usecase">Real-World Use Case: Netflix 404 status code bhejta hai jab movie nahi milti, aur 201 jab user naya playlist banata hai.</div>
+    <div class="note">Note: Sahi status codes ka use user-friendly responses ke liye zaroori hai.</div>
+
+    <h2>🧪 Class Group Assignment (5 Students)</h2>
+    <p>Ye assignments Class 4 ke concepts ko asaan tareeke se seekhne ke liye hain:</p>
+    <ol>
+      <li>Ek Express server banao jo <code>/api/students</code> par GET aur POST requests handle kare. GET students ki list return kare, aur POST naya student add kare.</li>
+      <li>Ek <code>package.json</code> file banao jisme <code>express</code> ko <code>^4.17.1</code> aur <code>chalk</code> ko <code>~4.1.2</code> version ke sath add karo. <code>npm install</code> run karke check karo.</li>
+      <li>Postman ka use karke ek GET aur ek POST request test karo <code>/api/students</code> par.</li>
+      <li>Ek middleware banao jo har request ka time aur URL console mein log kare.</li>
+      <li>Ek Express server banao jo 200, 201, 400, aur 404 status codes return kare different scenarios ke liye.</li>
+    </ol>
+
+    <h2>📚 Homework Assignment</h2>
+    <p>Ye homework Class 4 ke concepts ko mazboot karega:</p>
+    <ol>
+      <li>Ek Express server banao jo <code>/api/courses</code> par GET, POST, aur DELETE routes handle kare (hardcoded data).</li>
+      <li>Ek <code>package.json</code> file banao jisme <code>express</code> aur <code>lodash</code> ke versions <code>^</code> aur <code>~</code> ke sath define karo. <code>npm outdated</code> run karke check karo.</li>
+      <li>Postman mein ek POST request bhejo <code>/api/courses</code> par aur response verify karo.</li>
+      <li>Ek middleware banao jo POST requests ke liye body mein "title" field check kare, warna 400 error bheje.</li>
+      <li>Ek Express server banao jo 200, 201, 400, aur 404 status codes ka use kare different endpoints ke liye.</li>
+    </ol>
+    <div class="code-block">
+const express = require('express');
+const app = express();
+
+app.use(express.json());
+
+// Logging middleware
+app.use((req, res, next) => {
+  console.log(`[${new Date().toISOString()}] ${req.method} ${req.url}`);
+  next();
+});
+
+// Validation middleware
+app.use('/api/courses', (req, res, next) => {
+  if (req.method === 'POST' && !req.body.title) {
+    return res.status(400).json({ error: 'Course title zaroori hai' });
+  }
+  next();
+});
+
+let courses = [
+  { id: 1, title: 'Node.js', duration: '10 hours' },
+  { id: 2, title: 'Express.js', duration: '5 hours' }
+];
+
+// Get all courses
+app.get('/api/courses', (req, res) => {
+  res.status(200).json(courses);
+});
+
+// Create course
+app.post('/api/courses', (req, res) => {
+  const course = {
+    id: courses.length + 1,
+    title: req.body.title,
+    duration: req.body.duration
+  };
+  courses.push(course);
+  res.status(201).json(course);
+});
+
+// Delete course
+app.delete('/api/courses/:id', (req, res) => {
+  const index = courses.findIndex(c => c.id === parseInt(req.params.id));
+  if (index === -1) return res.status(404).json({ error: 'Course nahi mila' });
+  const deleted = courses.splice(index, 1);
+  res.status(200).json(deleted);
+});
+
+app.listen(3000, () => {
+  console.log('Server chal raha hai: http://localhost:3000');
+});
+    </div>
+    <div class="usecase">Real-World Use Case: Coursera Express REST APIs aur package versioning ka use karta hai courses aur user data manage karne ke liye, aur Postman se developers APIs test karte hain.</div>
+
+  </div>
+</body>
+</html>
