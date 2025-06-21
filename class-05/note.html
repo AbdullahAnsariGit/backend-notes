@@ -1,0 +1,283 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MongoDB Guide with Schema & Methods</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 20px;
+            background-color: #f4f4f4;
+            color: #333;
+        }
+        h1, h2, h3 {
+            color: #2c3e50;
+        }
+        .section {
+            background-color: #fff;
+            padding: 20px;
+            margin: 10px 0;
+            border-radius: 5px;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+        }
+        code {
+            background-color: #e8ecef;
+            padding: 2px 5px;
+            border-radius: 3px;
+        }
+        pre {
+            background-color: #2c3e50;
+            color: #fff;
+            padding: 10px;
+            border-radius: 5px;
+            overflow-x: auto;
+        }
+    </style>
+</head>
+<body>
+    <h1>MongoDB Basic Guide with Schema & Methods</h1>
+    
+    <div class="section">
+        <h2>1. MongoDB Kya Hai?</h2>
+        <p>
+            MongoDB ek <strong>database</strong> hai jo data ko <strong>JSON-like documents</strong> me store karta hai. Ye bilkul ek digital notebook jaisa hai jisme tum apni information likh sakte ho aur baad me padh sakte ho. Isme data tables ke bajaye flexible documents me save hota hai.
+        </p>
+        <p>
+            <strong>Example:</strong> Ek student ka data aise dikhega:
+            <pre>
+{
+    "name": "Ali",
+    "age": 12,
+    "class": 5
+}
+            </pre>
+        </p>
+    </div>
+
+    <div class="section">
+        <h2>2. MongoDB Atlas Kya Hai?</h2>
+        <p>
+            MongoDB Atlas ek <strong>cloud service</strong> hai jisme tum apna MongoDB database online host kar sakte ho. Tumhe apne computer pe kuch install nahi karna, bas internet se connect karke use karo. Ye ek online storage jaisa hai jo sab kuch manage karta hai.
+        </p>
+        <p>
+            <strong>Fayda:</strong> Atlas backup, security, aur scaling khud handle karta hai.
+        </p>
+    </div>
+
+    <div class="section">
+        <h2>3. Cluster Kya Hota Hai?</h2>
+        <p>
+            Cluster ek <strong>group of servers</strong> hota hai jo ek saath kaam karte hain tumhara database chalane ke liye. Atlas me jab tum database banate ho, to ek cluster banta hai jisme data safe rehta hai.
+        </p>
+        <p>
+            <strong>Simple Example:</strong> Cluster ek bada box hai jisme tumhara data store hota hai, aur kai computers milke isko chalate hain.
+        </p>
+    </div>
+
+    <div class="section">
+        <h2>4. Schema Kya Hai?</h2>
+        <p>
+            Schema ek <strong>blueprint</strong> hai jo batata hai ki tumhara data MongoDB me kaisa dikhega. Ye define karta hai ki tumhare document me kaun-kaun se fields honge aur unka type kya hoga (jaise string, number, etc.).
+        </p>
+        <p>
+            <strong>Example:</strong> Ek student ka schema aisa ho sakta hai:
+            <pre>
+const studentSchema = new mongoose.Schema({
+    name: String,
+    age: Number,
+    class: Number
+});
+            </pre>
+            <p>Yaha <code>name</code> ek string hoga, <code>age</code> aur <code>class</code> numbers honge.</p>
+        </p>
+    </div>
+
+    <div class="section">
+        <h2>5. Model Kya Hai?</h2>
+        <p>
+            Model ek <strong>class</strong> hai jo schema ke basis pe banaya jata hai. Ye tumhe allow karta hai database me data save, read, update, ya delete karne ke liye. Model ke through tum apne data ke saath kaam kar sakte ho.
+        </p>
+        <p>
+            <strong>Example:</strong> Schema ke baad model banane ka code:
+            <pre>
+const Student = mongoose.model('Student', studentSchema);
+            </pre>
+            <p>Yaha <code>Student</code> model hai jo <code>studentSchema</code> use karta hai. Ab tum <code>Student</code> se data add ya find kar sakte ho.</p>
+        </p>
+    </div>
+
+    <div class="section">
+        <h2>6. Methods Kya Hote Hain?</h2>
+        <p>
+            Methods ek tarika hai apne model me <strong>custom functions</strong> add karne ka. Ye functions tumhare data ke saath specific kaam kar sakte hain. For example, ek method bana sakte ho jo student ka full details return kare.
+        </p>
+        <p>
+            <strong>Example:</strong> Ek custom method banane ka code:
+            <pre>
+studentSchema.methods.getDetails = function() {
+    return `Name: ${this.name}, Age: ${this.age}, Class: ${this.class}`;
+};
+            </pre>
+            <p>Is method se tum student ke details ek string me le sakte ho.</p>
+        </p>
+    </div>
+
+    <div class="section">
+        <h2>7. MongoDB se Connection Kaise Banaye?</h2>
+        <p>
+            MongoDB Atlas se connect karne ke liye <strong>connection string</strong> chahiye. Ye Atlas se milti hai jab tum cluster banate ho. Hum <strong>Mongoose</strong> use karenge kyunki ye schemas aur models ke saath kaam karna aasan banata hai.
+        </p>
+        <h3>Step-by-Step Connection Guide</h3>
+        <ol>
+            <li>
+                <strong>MongoDB Atlas pe Account Banaye:</strong>
+                <ul>
+                    <li>Jao <a href="https://www.mongodb.com/cloud/atlas">MongoDB Atlas</a> pe aur sign up karo.</li>
+                    <li>Ek free cluster banao (M0 free tier kaafi hai).</li>
+                    <li><code>Connect</code> button pe click karke <code>Connect your application</code> select karo. Connection string copy karo:
+                    <pre>
+mongodb+srv://<username>:<password>@cluster0.mongodb.net/myDatabase?retryWrites=true&w=majority
+                    </pre>
+                    </li>
+                </ul>
+            </li>
+            <li>
+                <strong>Node.js Project Setup Karo:</strong>
+                <ul>
+                    <li>Ek folder banao aur terminal me jao.</li>
+                    <li>Run karo: <code>npm init -y</code> (package.json file ban jayegi).</li>
+                </ul>
+            </li>
+            <li>
+                <strong>Packages Install Karo:</strong>
+                <p>Ye packages chahiye:</p>
+                <ul>
+                    <li><code>mongoose</code>: MongoDB ke saath structured way me kaam karne ke liye.</li>
+                    <li><code>express</code>: Web server ke liye.</li>
+                </ul>
+                <p>Terminal me run karo:</p>
+                <pre>
+npm install mongoose express
+                </pre>
+            </li>
+            <li>
+                <strong>Connection Code Likho:</strong>
+                <p>Ek file banao <code>index.js</code> aur ye code likho:</p>
+                <pre>
+const mongoose = require('mongoose');
+const express = require('express');
+const app = express();
+
+// Connection String
+const uri = "mongodb+srv://<username>:<password>@cluster0.mongodb.net/schoolDB?retryWrites=true&w=majority";
+
+// Connect to MongoDB
+mongoose.connect(uri, {
+    useNewUrlParser: true,
+    useUnifiedTopology: true
+}).then(() => {
+    console.log("Connected to MongoDB!");
+}).catch(err => {
+    console.error("Connection failed:", err);
+});
+
+// Schema
+const studentSchema = new mongoose.Schema({
+    name: String,
+    age: Number,
+    class: Number
+});
+
+// Method
+studentSchema.methods.getDetails = function() {
+    return `Name: ${this.name}, Age: ${this.age}, Class: ${this.class}`;
+};
+
+// Model
+const Student = mongoose.model('Student', studentSchema);
+
+// Example: Add a Student
+async function addStudent() {
+    const student = new Student({
+        name: "Ali",
+        age: 12,
+        class: 5
+    });
+    await student.save();
+    console.log("Student Added:", student);
+    console.log(student.getDetails()); // Use custom method
+}
+
+addStudent();
+
+// Start Server
+app.listen(3000, () => {
+    console.log("Server running on port 3000");
+});
+                </pre>
+                <p>
+                    <strong>Note:</strong> <code><username></code> aur <code><password></code> ko apne Atlas credentials se replace karo. <code>schoolDB</code> database ka naam hai.
+                </p>
+            </li>
+            <li>
+                <strong>Run Karo:</strong>
+                <p>Terminal me ye command run karo:</p>
+                <pre>
+node index.js
+                </pre>
+                <p>Agar "Connected to MongoDB!" aur student details print hote hain, to sab kaam kar raha hai!</p>
+            </li>
+        </ol>
+    </div>
+
+    <div class="section">
+        <h2>8. Bonus: Data Ke Saath Kaam Karna</h2>
+        <p>Yaha kuch basic operations hain jo tum model ke saath kar sakte ho:</p>
+        <ul>
+            <li><strong>Add Data:</strong> Upar wale code me <code>student.save()</code> se data add kiya.</li>
+            <li><strong>Find Data:</strong>
+                <pre>
+const students = await Student.find({ class: 5 });
+console.log("Class 5 Students:", students);
+                </pre>
+            </li>
+            <li><strong>Update Data:</strong>
+                <pre>
+await Student.updateOne({ name: "Ali" }, { age: 13 });
+console.log("Student Updated!");
+                </pre>
+            </li>
+            <li><strong>Delete Data:</strong>
+                <pre>
+await Student.deleteOne({ name: "Ali" });
+console.log("Student Deleted!");
+                </pre>
+            </li>
+        </ul>
+    </div>
+
+    <div class="section">
+        <h2>9. Recommended Packages</h2>
+        <ul>
+            <li><strong>mongoose</strong>: Schemas, models, aur methods ke liye best hai.</li>
+            <li><strong>express</strong>: Web apps banane ke liye.</li>
+            <li><strong>mongodb</strong>: Agar schemas nahi chahiye, to direct MongoDB driver use karo.</li>
+        </ul>
+    </div>
+
+    <div class="section">
+        <h2>10. MongoDB ke Fayde</h2>
+        <ul>
+            <li>JSON-like format se data fast aur flexible hai.</li>
+            <li>Atlas se cloud me aasani se kaam kar sakte ho.</li>
+            <li>Mongoose ke saath schemas aur methods banakar code organized hota hai.</li>
+        </ul>
+    </div>
+
+    <h3>Ab Tum Try Karo!</h3>
+    <p>
+        Upar diya code copy karke run karo. Schema aur methods ke saath khelne ke liye alag-alag data add karke dekho. Agar koi doubt ho, to pooch sakte ho!
+    </p>
+</body>
+</html>
