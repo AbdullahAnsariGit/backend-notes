@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>E-commerce Project Notes for Class 6</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f0f8ff;
+            margin: 0;
+            padding: 20px;
+            color: #333;
+        }
+        h1 {
+            text-align: center;
+            color: #ff4500;
+            font-size: 36px;
+        }
+        h2 {
+            color: #4682b4;
+            font-size: 28px;
+            border-bottom: 2px solid #4682b4;
+            padding-bottom: 5px;
+        }
+        p {
+            font-size: 18px;
+            line-height: 1.6;
+            margin: 10px 0;
+        }
+        ul {
+            list-style-type: square;
+            margin: 10px 0;
+            padding-left: 30px;
+        }
+        li {
+            font-size: 18px;
+            margin-bottom: 10px;
+        }
+        .section {
+            background-color: #fff;
+            border: 2px solid #ff6347;
+            border-radius: 10px;
+            padding: 20px;
+            margin-bottom: 20px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        }
+        .example {
+            background-color: #e6e6fa;
+            padding: 10px;
+            border-left: 5px solid #6a5acd;
+            font-family: 'Courier New', Courier, monospace;
+            font-size: 16px;
+        }
+        .highlight {
+            color: #ff4500;
+            font-weight: bold;
+        }
+    </style>
+</head>
+<body>
+    <h1>E-commerce Project Notes</h1>
+    <p>Hey kids! Let's learn about the cool parts of our e-commerce project (like an online shop) using Node.js! We'll talk about <span class="highlight">MVC Pattern</span>, <span class="highlight">Authentication</span>, and <span class="highlight">Role-Based Authorization</span> in a fun and simple way!</p>
+
+    <div class="section">
+        <h2>1. MVC Pattern</h2>
+        <p><b>What is MVC?</b> MVC stands for <span class="highlight">Model-View-Controller</span>. It's like organizing your toys into boxes to keep things neat and easy to find!</p>
+        <ul>
+            <li><b>Model</b>: The "data box" that stores information, like products and users in our online shop.</li>
+            <li><b>View</b>: The "display box" that shows things to users, like a list of products on a webpage.</li>
+            <li><b>Controller</b>: The "helper box" that decides what to do, like adding a new product when you click a button.</li>
+        </ul>
+        <p><b>Why use MVC?</b> It keeps our code organized, so we don’t mix everything up like a messy toy room!</p>
+        <p><b>In our e-commerce project</b>: We use MVC to manage products and orders:</p>
+        <ul>
+            <li><b>Model</b>: Stores product details (name, price) and user details (username, password).</li>
+            <li><b>View</b>: Sends JSON data (like product lists) to the user (we can add a webpage later).</li>
+            <li><b>Controller</b>: Handles tasks like adding a product or creating an order.</li>
+        </ul>
+        <div class="example">
+            Example: Folder structure for MVC<br>
+            models/ → Stores product and user data<br>
+            controllers/ → Code to add or update products<br>
+            routes/ → Decides which controller to use
+        </div>
+    </div>
+
+    <div class="section">
+        <h2>2. Authentication</h2>
+        <p><b>What is Authentication?</b> It’s like a secret password to enter a clubhouse! It checks if you are who you say you are.</p>
+        <p><b>How it works?</b> In our shop, users log in with a username and password. We give them a special key (called a <span class="highlight">JWT token</span>) to prove they’re allowed in.</p>
+        <ul>
+            <li><b>Register</b>: Create a new account with a username and password.</li>
+            <li><b>Login</b>: Enter username and password to get a JWT token.</li>
+            <li><b>Use Token</b>: Send the token with every request to prove you’re logged in.</li>
+        </ul>
+        <p><b>In our e-commerce project</b>: Only logged-in users can create orders, and we use a library called <span class="highlight">jsonwebtoken</span> to make tokens.</p>
+        <div class="example">
+            Example: Login in our project<br>
+            POST /api/login<br>
+            {"username": "testuser", "password": "password123"}<br>
+            Response: {"token": "xyz123", "role": "user"}
+        </div>
+    </div>
+
+    <div class="section">
+        <h2>3. Role-Based Authorization</h2>
+        <p><b>What is Authorization?</b> It decides what you’re allowed to do. Like, only teachers can give homework, but students can’t!</p>
+        <p><b>Roles in our project</b>: We have two roles: <span class="highlight">user</span> and <span class="highlight">admin</span>.</p>
+        <ul>
+            <li><b>User</b>: Can view products and create orders (like buying a toy).</li>
+            <li><b>Admin</b>: Can add, update, or delete products and see all orders (like managing the shop).</li>
+        </ul>
+        <p><b>How it works?</b> After login, the JWT token tells us your role. We check if you’re an admin before letting you add products.</p>
+        <p><b>In our e-commerce project</b>: We use middleware (like a gatekeeper) to block users from admin tasks.</p>
+        <div class="example">
+            Example: Admin-only task<br>
+            POST /api/products (add a product)<br>
+            Middleware checks: Is user an admin? If not, say "Access denied!"
+        </div>
+    </div>
+
+    <p><b>Fun Fact</b>: Our e-commerce project uses these ideas to make a safe and organized online shop, just like a real store where only managers can add new items!</p>
+</body>
+</html>
