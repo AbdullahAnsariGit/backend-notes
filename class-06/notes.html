@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>E-commerce Project Notes for Class 6</title>
+    <title>E-commerce Project Flow Notes for Class 6</title>
     <style>
         body {
             font-family: Arial, sans-serif;
@@ -28,8 +28,8 @@
             line-height: 1.6;
             margin: 10px 0;
         }
-        ul {
-            list-style-type: square;
+        ol {
+            list-style-type: decimal;
             margin: 10px 0;
             padding-left: 30px;
         }
@@ -59,67 +59,132 @@
     </style>
 </head>
 <body>
-    <h1>E-commerce Project Notes</h1>
-    <p>Hey kids! Let's learn about the cool parts of our e-commerce project (like an online shop) using Node.js! We'll talk about <span class="highlight">MVC Pattern</span>, <span class="highlight">Authentication</span>, and <span class="highlight">Role-Based Authorization</span> in a fun and simple way!</p>
+    <h1>E-commerce Project Flow Notes</h1>
+    <p>Hey kids! Our e-commerce project is like running an online toy shop! Let’s learn how it works step-by-step, like following a treasure map. We’ll see how users buy toys, admins add toys, and how the code is organized to make everything smooth!</p>
 
     <div class="section">
-        <h2>1. MVC Pattern</h2>
-        <p><b>What is MVC?</b> MVC stands for <span class="highlight">Model-View-Controller</span>. It's like organizing your toys into boxes to keep things neat and easy to find!</p>
+        <h2>What is the E-commerce Project?</h2>
+        <p>It’s a system where people can buy products (like toys or phones) online. It has two types of people:</p>
         <ul>
-            <li><b>Model</b>: The "data box" that stores information, like products and users in our online shop.</li>
-            <li><b>View</b>: The "display box" that shows things to users, like a list of products on a webpage.</li>
-            <li><b>Controller</b>: The "helper box" that decides what to do, like adding a new product when you click a button.</li>
+            <li><span class="highlight">Users</span>: They browse products and buy them by creating orders.</li>
+            <li><span class="highlight">Admins</span>: They add, update, or remove products and check all orders.</li>
         </ul>
-        <p><b>Why use MVC?</b> It keeps our code organized, so we don’t mix everything up like a messy toy room!</p>
-        <p><b>In our e-commerce project</b>: We use MVC to manage products and orders:</p>
-        <ul>
-            <li><b>Model</b>: Stores product details (name, price) and user details (username, password).</li>
-            <li><b>View</b>: Sends JSON data (like product lists) to the user (we can add a webpage later).</li>
-            <li><b>Controller</b>: Handles tasks like adding a product or creating an order.</li>
-        </ul>
-        <div class="example">
-            Example: Folder structure for MVC<br>
-            models/ → Stores product and user data<br>
-            controllers/ → Code to add or update products<br>
-            routes/ → Decides which controller to use
-        </div>
+        <p>The project uses <span class="highlight">Node.js</span> (a tool oku a tool to run JavaScript), <span class="highlight">MongoDB</span> (to store data), and something called <span class="highlight">MVC</span> to keep the code neat!</p>
     </div>
 
     <div class="section">
-        <h2>2. Authentication</h2>
-        <p><b>What is Authentication?</b> It’s like a secret password to enter a clubhouse! It checks if you are who you say you are.</p>
-        <p><b>How it works?</b> In our shop, users log in with a username and password. We give them a special key (called a <span class="highlight">JWT token</span>) to prove they’re allowed in.</p>
-        <ul>
-            <li><b>Register</b>: Create a new account with a username and password.</li>
-            <li><b>Login</b>: Enter username and password to get a JWT token.</li>
-            <li><b>Use Token</b>: Send the token with every request to prove you’re logged in.</li>
-        </ul>
-        <p><b>In our e-commerce project</b>: Only logged-in users can create orders, and we use a library called <span class="highlight">jsonwebtoken</span> to make tokens.</p>
-        <div class="example">
-            Example: Login in our project<br>
-            POST /api/login<br>
-            {"username": "testuser", "password": "password123"}<br>
-            Response: {"token": "xyz123", "role": "user"}
-        </div>
+        <h2>How Does the Project Flow?</h2>
+        <p>Let’s follow the steps of how the shop works, like a fun journey!</p>
+        <ol>
+            <li><b>Starting the Shop (Server)</b>
+                <p>The shop opens when we start the <span class="highlight">server</span> (like turning on the shop’s lights).</p>
+                <p>The server connects to MongoDB (a big storage room for products and users) and waits for customers.</p>
+                <div class="example">
+                    Example: Starting the server<br>
+                    node server.js<br>
+                    Output: Server running at http://localhost:3000
+                </div>
+            </li>
+            <li><b>Registering a Customer</b>
+                <p>Customers sign up to join the shop. They give a username, password, and a role (<span class="highlight">user</span> or <span class="highlight">admin</span>).</p>
+                <p>Their password is locked safely (using <span class="highlight">bcrypt</span>) and stored in MongoDB.</p>
+                <div class="example">
+                    Example: Registering a user<br>
+                    POST /api/register<br>
+                    {"username": "testuser", "password": "password123", "role": "user"}<br>
+                    Response: {"message": "User registered"}
+                </div>
+            </li>
+            <li><b>Logging In</b>
+                <p>Customers log in with their username and password. If correct, they get a <span class="highlight">JWT token</span> (like a VIP pass).</p>
+                <p>This token proves they’re allowed to shop or manage products.</p>
+                <div class="example">
+                    Example: Logging in<br>
+                    POST /api/login<br>
+                    {"username": "testuser", "password": "password123"}<br>
+                    Response: {"token": "xyz123", "role": "user"}
+                </div>
+            </li>
+            <li><b>Browsing Products</b>
+                <p>Anyone can see the products (like toys in a shop window) without logging in.</p>
+                <p>The <span class="highlight">MVC</span> pattern helps: the <span class="highlight">Model</span> (data) sends product info, the <span class="highlight">Controller</span> prepares it, and the <span class="highlight">View</span> shows it as JSON.</p>
+                <div class="example">
+                    Example: Viewing products<br>
+                    GET /api/products<br>
+                    Response: [{"name": "Phone", "price": 599.99, ...}]
+                </div>
+            </li>
+            <li><b>Adding Products (Admin Only)</b>
+                <p>Admins (shop managers) use their JWT token to add new products, like adding a new toy to the shelf.</p>
+                <p>The <span class="highlight">auth</span> middleware checks their token, and the <span class="highlight">admin</span> middleware ensures they’re an admin.</p>
+                <div class="example">
+                    Example: Adding a product<br>
+                    POST /api/products<br>
+                    Headers: Authorization: Bearer &lt;admin_token&gt;<br>
+                    {"name": "Phone", "price": 599.99}<br>
+                    Response: {"name": "Phone", "price": 599.99, ...}
+                </div>
+            </li>
+            <li><b>Creating Orders (Users and Admins)</b>
+                <p>Logged-in users (or admins) can buy products by creating orders, like picking toys and paying.</p>
+                <p>The <span class="highlight">Controller</span> calculates the total price, and the order is saved in MongoDB.</p>
+                <div class="example">
+                    Example: Creating an order<br>
+                    POST /api/orders<br>
+                    Headers: Authorization: Bearer &lt;user_token&gt;<br>
+                    {"items": [{"productId": "123", "quantity": 2}]}<br>
+                    Response: {"total": 1199.98, ...}
+                </div>
+            </li>
+            <li><b>Viewing Orders</b>
+                <p>Users see only their own orders, while admins see everyone’s orders, like a manager checking all sales.</p>
+                <p>The <span class="highlight">auth</span> middleware checks the token, and the role decides what orders to show.</p>
+                <div class="example">
+                    Example: Viewing orders<br>
+                    GET /api/orders<br>
+                    Headers: Authorization: Bearer &lt;user_token&gt;<br>
+                    Response: [{"items": [...], "total": 1199.98, ...}]
+                </div>
+            </li>
+            <li><b>Updating or Deleting Products (Admin Only)</b>
+                <p>Admins can change or remove products, like updating a toy’s price or removing it from the shelf.</p>
+                <p>The <span class="highlight">admin</span> middleware ensures only admins can do this.</p>
+                <div class="example">
+                    Example: Updating a product<br>
+                    PUT /api/products/123<br>
+                    Headers: Authorization: Bearer &lt;admin_token&gt;<br>
+                    {"price": 699.99}<br>
+                    Response: {"name": "Phone", "price": 699.99, ...}
+                </div>
+            </li>
+        </ol>
     </div>
 
     <div class="section">
-        <h2>3. Role-Based Authorization</h2>
-        <p><b>What is Authorization?</b> It decides what you’re allowed to do. Like, only teachers can give homework, but students can’t!</p>
-        <p><b>Roles in our project</b>: We have two roles: <span class="highlight">user</span> and <span class="highlight">admin</span>.</p>
+        <h2>How MVC Helps the Flow</h2>
+        <p>The <span class="highlight">MVC</span> pattern is like a team of helpers organizing the shop:</p>
         <ul>
-            <li><b>User</b>: Can view products and create orders (like buying a toy).</li>
-            <li><b>Admin</b>: Can add, update, or delete products and see all orders (like managing the shop).</li>
+            <li><b>Model</b>: The storage room (MongoDB) where products, users, and orders are kept.</li>
+            <li><b>View</b>: The shop’s display (JSON responses, like showing product lists).</li>
+            <li><b>Controller</b>: The cashier who handles tasks (like adding products or creating orders).</li>
         </ul>
-        <p><b>How it works?</b> After login, the JWT token tells us your role. We check if you’re an admin before letting you add products.</p>
-        <p><b>In our e-commerce project</b>: We use middleware (like a gatekeeper) to block users from admin tasks.</p>
+        <p><b>Example</b>: When a user creates an order, the <span class="highlight">Controller</span> (orderController.js) talks to the <span class="highlight">Model</span> (order.js) to save it and sends a <span class="highlight">View</span> (JSON) back to the user.</p>
+    </div>
+
+    <div class="section">
+        <h2>How Authentication and Authorization Work</h2>
+        <p><b>Authentication</b>: It’s like showing your ID to enter the shop. The JWT token proves you’re a valid user.</p>
+        <p><b>Authorization</b>: It decides what you can do. Users can buy, but only admins can add or change products.</p>
+        <p><b>Flow</b>: Login → Get JWT token → Use token in requests → Middleware checks token and role.</p>
         <div class="example">
-            Example: Admin-only task<br>
-            POST /api/products (add a product)<br>
-            Middleware checks: Is user an admin? If not, say "Access denied!"
+            Example: Admin adding a product<br>
+            1. Login as admin → Get token<br>
+            2. Send token with POST /api/products<br>
+            3. Middleware checks: Is token valid? Is role admin?<br>
+            4. If yes, product is added!
         </div>
     </div>
 
-    <p><b>Fun Fact</b>: Our e-commerce project uses these ideas to make a safe and organized online shop, just like a real store where only managers can add new items!</p>
+    <p><b>Fun Fact</b>: Our shop is like a real online store, where users buy things safely, and admins keep the shelves stocked, all organized by MVC!</p>
 </body>
 </html>
