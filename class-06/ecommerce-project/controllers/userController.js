@@ -1,7 +1,7 @@
 const bcrypt = require('bcryptjs');
 const jwt = require('jsonwebtoken');
 const User = require('../models/user');
-const JWT_SECRET = 'your_jwt_secret_key'; // Replace with env variable in production
+const JWT_SECRET = 'your_jwt_secret_key';
 
 const userController = {
   register: async (req, res) => {

@@ -1,0 +1,399 @@
+{
+  "info": {
+    "name": "E-commerce API",
+    "_postman_id": "e1f2a3b4-c5d6-4e7f-8a9b-0c1d2e3f4a5b",
+    "description": "Collection for testing the Node.js e-commerce API with MVC, JWT authentication, and role-based authorization.",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+  },
+  "variable": [
+    {
+      "key": "base_url",
+      "value": "http://localhost:3000"
+    },
+    {
+      "key": "user_token",
+      "value": ""
+    },
+    {
+      "key": "admin_token",
+      "value": ""
+    },
+    {
+      "key": "product_id",
+      "value": ""
+    }
+  ],
+  "item": [
+    {
+      "name": "Register User",
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "exec": [
+              "pm.test('Register User - Status code is 201', function () {",
+              "    pm.response.to.have.status(201);",
+              "});"
+            ],
+            "type": "text/javascript"
+          }
+        }
+      ],
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\"username\": \"testuser\", \"password\": \"password123\", \"role\": \"user\"}"
+        },
+        "url": {
+          "raw": "{{base_url}}/api/register",
+          "host": ["{{base_url}}"],
+          "path": ["api", "register"]
+        }
+      }
+    },
+    {
+      "name": "Register Admin",
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "exec": [
+              "pm.test('Register Admin - Status code is 201', function () {",
+              "    pm.response.to.have.status(201);",
+              "});"
+            ],
+            "type": "text/javascript"
+          }
+        }
+      ],
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\"username\": \"admin\", \"password\": \"admin123\", \"role\": \"admin\"}"
+        },
+        "url": {
+          "raw": "{{base_url}}/api/register",
+          "host": ["{{base_url}}"],
+          "path": ["api", "register"]
+        }
+      }
+    },
+    {
+      "name": "Login User",
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "exec": [
+              "pm.test('Login User - Status code is 200', function () {",
+              "    pm.response.to.have.status(200);",
+              "});",
+              "var jsonData = pm.response.json();",
+              "pm.collectionVariables.set('user_token', jsonData.token);"
+            ],
+            "type": "text/javascript"
+          }
+        }
+      ],
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\"username\": \"testuser\", \"password\": \"password123\"}"
+        },
+        "url": {
+          "raw": "{{base_url}}/api/login",
+          "host": ["{{base_url}}"],
+          "path": ["api", "login"]
+        }
+      }
+    },
+    {
+      "name": "Login Admin",
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "exec": [
+              "pm.test('Login Admin - Status code is 200', function () {",
+              "    pm.response.to.have.status(200);",
+              "});",
+              "var jsonData = pm.response.json();",
+              "pm.collectionVariables.set('admin_token', jsonData.token);"
+            ],
+            "type": "text/javascript"
+          }
+        }
+      ],
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\"username\": \"admin\", \"password\": \"admin123\"}"
+        },
+        "url": {
+          "raw": "{{base_url}}/api/login",
+          "host": ["{{base_url}}"],
+          "path": ["api", "login"]
+        }
+      }
+    },
+    {
+      "name": "Add Product",
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "exec": [
+              "pm.test('Add Product - Status code is 201', function () {",
+              "    pm.response.to.have.status(201);",
+              "});",
+              "var jsonData = pm.response.json();",
+              "pm.collectionVariables.set('product_id', jsonData._id);"
+            ],
+            "type": "text/javascript"
+          }
+        }
+      ],
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          },
+          {
+            "key": "Authorization",
+            "value": "Bearer {{admin_token}}"
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\"name\": \"Phone\", \"price\": 599.99, \"description\": \"Smartphone\"}"
+        },
+        "url": {
+          "raw": "{{base_url}}/api/products",
+          "host": ["{{base_url}}"],
+          "path": ["api", "products"]
+        }
+      }
+    },
+    {
+      "name": "View Products",
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "exec": [
+              "pm.test('View Products - Status code is 200', function () {",
+              "    pm.response.to.have.status(200);",
+              "});"
+            ],
+            "type": "text/javascript"
+          }
+        }
+      ],
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": {
+          "raw": "{{base_url}}/api/products",
+          "host": ["{{base_url}}"],
+          "path": ["api", "products"]
+        }
+      }
+    },
+    {
+      "name": "Update Product",
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "exec": [
+              "pm.test('Update Product - Status code is 200', function () {",
+              "    pm.response.to.have.status(200);",
+              "});"
+            ],
+            "type": "text/javascript"
+          }
+        }
+      ],
+      "request": {
+        "method": "PUT",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          },
+          {
+            "key": "Authorization",
+            "value": "Bearer {{admin_token}}"
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\"name\": \"Phone Pro\", \"price\": 699.99}"
+        },
+        "url": {
+          "raw": "{{base_url}}/api/products/{{product_id}}",
+          "host": ["{{base_url}}"],
+          "path": ["api", "products", "{{product_id}}"]
+        }
+      }
+    },
+    {
+      "name": "Delete Product",
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "exec": [
+              "pm.test('Delete Product - Status code is 204', function () {",
+              "    pm.response.to.have.status(204);",
+              "});"
+            ],
+            "type": "text/javascript"
+          }
+        }
+      ],
+      "request": {
+        "method": "DELETE",
+        "header": [
+          {
+            "key": "Authorization",
+            "value": "Bearer {{admin_token}}"
+          }
+        ],
+        "url": {
+          "raw": "{{base_url}}/api/products/{{product_id}}",
+          "host": ["{{base_url}}"],
+          "path": ["api", "products", "{{product_id}}"]
+        }
+      }
+    },
+    {
+      "name": "Create Order",
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "exec": [
+              "pm.test('Create Order - Status code is 201', function () {",
+              "    pm.response.to.have.status(201);",
+              "});"
+            ],
+            "type": "text/javascript"
+          }
+        }
+      ],
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          },
+          {
+            "key": "Authorization",
+            "value": "Bearer {{user_token}}"
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\"items\": [{\"productId\": \"{{product_id}}\", \"quantity\": 2}]}"
+        },
+        "url": {
+          "raw": "{{base_url}}/api/orders",
+          "host": ["{{base_url}}"],
+          "path": ["api", "orders"]
+        }
+      }
+    },
+    {
+      "name": "View Orders (User)",
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "exec": [
+              "pm.test('View Orders (User) - Status code is 200', function () {",
+              "    pm.response.to.have.status(200);",
+              "});"
+            ],
+            "type": "text/javascript"
+          }
+        }
+      ],
+      "request": {
+        "method": "GET",
+        "header": [
+          {
+            "key": "Authorization",
+            "value": "Bearer {{user_token}}"
+          }
+        ],
+        "url": {
+          "raw": "{{base_url}}/api/orders",
+          "host": ["{{base_url}}"],
+          "path": ["api", "orders"]
+        }
+      }
+    },
+    {
+      "name": "View Orders (Admin)",
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "exec": [
+              "pm.test('View Orders (Admin) - Status code is 200', function () {",
+              "    pm.response.to.have.status(200);",
+              "});"
+            ],
+            "type": "text/javascript"
+          }
+        }
+      ],
+      "request": {
+        "method": "GET",
+        "header": [
+          {
+            "key": "Authorization",
+            "value": "Bearer {{admin_token}}"
+          }
+        ],
+        "url": {
+          "raw": "{{base_url}}/api/orders",
+          "host": ["{{base_url}}"],
+          "path": ["api", "orders"]
+        }
+      }
+    }
+  ]
+}
