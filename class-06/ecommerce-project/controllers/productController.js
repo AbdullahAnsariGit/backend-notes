@@ -17,8 +17,35 @@ const productController = {
 
   getAll: async (req, res) => {
     try {
-      const products = await Product.find();
-      res.json(products);
+      // Filtering
+      const { name, minPrice, maxPrice, page = 1, limit = 10 } = req.query;
+      const filter = {};
+      if (name) {
+        filter.name = { $regex: name, $options: 'i' }; // case-insensitive partial match
+      }
+      if (minPrice) {
+        filter.price = { ...filter.price, $gte: Number(minPrice) };
+      }
+      if (maxPrice) {
+        filter.price = { ...filter.price, $lte: Number(maxPrice) };
+      }
+
+      // Pagination
+      const pageNum = parseInt(page) > 0 ? parseInt(page) : 1;
+      const limitNum = parseInt(limit) > 0 ? parseInt(limit) : 10;
+      const skip = (pageNum - 1) * limitNum;
+
+      const total = await Product.countDocuments(filter);
+      const products = await Product.find(filter)
+        .skip(skip)
+        .limit(limitNum);
+
+      res.json({
+        total,
+        page: pageNum,
+        totalPages: Math.ceil(total / limitNum),
+        products,
+      });
     } catch (err) {
       res.status(500).json({ error: err.message });
     }
